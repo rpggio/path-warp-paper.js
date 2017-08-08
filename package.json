@@ -1,11 +1,11 @@
 {
   "name": "path-warp-paper",
-  "version": "0.0.1",
-  "description": "Library for warping type as vector paths",
-  "main": "index.js",
+  "version": "0.0.2",
+  "description": "Warp a path to fit other boundary paths. Paper.js implementation.",
+  "main": "build/index.js",
   "scripts": {
     "test": "mocha --require babel-polyfill --compilers js:babel-register",
-    "build": "babel src -d lib",
+    "build": "babel src -d build",
     "demo": "webpack-dev-server"
   },
   "repository": {

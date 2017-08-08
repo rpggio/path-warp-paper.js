@@ -55,6 +55,9 @@ var PathWarp = function () {
   *  treated as having rectangular bounds.
   * @param {paper.Path} topPath - Top boundary path.
   * @param {paper.Path} bottomPath - Bottom boundary path.
+  * @param {object} options - Optional. properties: 
+  *     flattenTolerance {number}: default 0.2
+  *     toleranceDeg {number}: default 15
   */
 
 
@@ -127,7 +130,7 @@ var PathWarp = function () {
     * Smoothes any vertexes along curves that are 'nearly' smooth.
     * @param {paper.Path} path - Path to be modified.
     * @param {number} toleranceDeg - Vertexes with angle difference less than 
-    *   this are considered smoothable.
+    *   this are considered smoothable (default 15).
     */
 
   }, {
@@ -177,4 +180,4 @@ var PathWarp = function () {
   return PathWarp;
 }();
 
-exports.PathWarp = PathWarp;
+exports.default = PathWarp;

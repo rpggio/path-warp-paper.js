@@ -1,5 +1,5 @@
 
-class PathWarp {
+export default class PathWarp {
 
   /**
   * Creates PathWarp instance.
@@ -44,6 +44,9 @@ class PathWarp {
   *  treated as having rectangular bounds.
   * @param {paper.Path} topPath - Top boundary path.
   * @param {paper.Path} bottomPath - Bottom boundary path.
+  * @param {object} options - Optional. properties: 
+  *     flattenTolerance {number}: default 0.2
+  *     toleranceDeg {number}: default 15
   */
   warpPathBetween(targetPath, topPath, bottomPath, options) {
     let { flattenTolerance, smoothToleranceDeg } = options || {};
@@ -105,7 +108,7 @@ class PathWarp {
   * Smoothes any vertexes along curves that are 'nearly' smooth.
   * @param {paper.Path} path - Path to be modified.
   * @param {number} toleranceDeg - Vertexes with angle difference less than 
-  *   this are considered smoothable.
+  *   this are considered smoothable (default 15).
   */
   static smoothCurves(path, toleranceDeg = 15){
     let prevAngle = path.lastCurve.getTangentAt(0.5).angle;
@@ -126,5 +129,3 @@ class PathWarp {
   }
 
 }
-
-export { PathWarp }

@@ -1,7 +1,7 @@
 import * as opentype from 'opentype.js'
 import paperGlobal from 'paper'
 
-import { PathWarp } from '../src/index';
+import PathWarp from '../src/index';
 
 opentype.load('./Roboto-500.ttf', (err, font) => {
   if (err) {

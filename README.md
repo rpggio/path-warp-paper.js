@@ -1,6 +1,6 @@
 # path-warp-paper.js
 
-Warp a path to fit other boundary paths. Paper.js implementation.
+Warp a path to fit other boundary paths. [Paper.js](paperjs.org) implementation.
 
 ## Installation
 
@@ -12,9 +12,10 @@ Warp a path to fit other boundary paths. Paper.js implementation.
 
    ```
    import paper from 'paper'
-   import { PathWarp } from 'path-warp-paper';
+   import PathWarp from 'path-warp-paper';
 
    paper.setup(/* pass canvas element id to render on canvas */);
+   new PathWarp(paper); // registers extensions
 
    const top = new paper.Path(...);
    const bottom = new paper.Path(...);
