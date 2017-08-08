@@ -47,6 +47,6 @@ function renderPaperPath(paper, pathData) {
     pathData: pathData,
     fillColor: 'lightblue'
   });
-  targetPath.projectBetween(topPath, bottomPath);
+  targetPath.warpBetween(topPath, bottomPath);
   return { targetPath, topPath, bottomPath };
 }

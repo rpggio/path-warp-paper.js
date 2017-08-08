@@ -1,40 +1,37 @@
 
 export default class PathWarp {
-
   /**
   * Creates PathWarp instance.
   * @param {paper.PaperScope} paper - Paper paper.
   *   To run without canvas element (such as for SVG rendering), just
   *   call `paper.setup()` before calling this.
   */
-  constructor(paper){
-
-    if(!paper){
-      throw new Error('PathWarp requires PaperScope')
+  constructor(paper) {
+    if (!paper) {
+      throw new Error('PathWarp requires PaperScope');
     }
 
     this.paper = paper;
 
     this.paper.Point.inject({
-      toArray: function() {
+      toArray() {
         return [this.x, this.y];
-      }
+      },
     });
 
     const self = this;
-    const warpBetwixt = function (topPath, bottomPath, options) {
+    const warpBetween = function _warpBetween(topPath, bottomPath, options) {
       return self.warpPathBetween(this, topPath, bottomPath, options);
-    }
+    };
 
     this.paper.Path.inject({
-      projectBetween: warpBetwixt,
-      smoothCurves: (path, tol) => PathWarp.smoothCurves(path, tol)
+      warpBetween,
+      smoothCurves: (path, tol) => PathWarp.smoothCurves(path, tol),
     });
 
     this.paper.CompoundPath.inject({
-      projectBetween: warpBetwixt
+      warpBetween,
     });
-
   }
 
   /**
@@ -49,20 +46,21 @@ export default class PathWarp {
   *     toleranceDeg {number}: default 15
   */
   warpPathBetween(targetPath, topPath, bottomPath, options) {
-    let { flattenTolerance, smoothToleranceDeg } = options || {};
+    const { smoothToleranceDeg } = options || {};
+    let { flattenTolerance } = options || {};
 
-    if(!flattenTolerance){
+    if (!flattenTolerance) {
       flattenTolerance = 0.2;
     }
 
     const projection = PathWarp.dualBoundsPathProjection(topPath, bottomPath);
     const sourceBounds = targetPath.bounds;
 
-    const transform = path => {
+    const transform = (path) => {
       path.flatten(flattenTolerance);
       const sourcePoints = path.segments.map(s => s.point);
 
-      const projectedPoints = sourcePoints.map(point => {
+      const projectedPoints = sourcePoints.map((point) => {
         const relative = point.subtract(sourceBounds.topLeft);
         const unitPoint = new this.paper.Point(
           relative.x / sourceBounds.width,
@@ -72,9 +70,10 @@ export default class PathWarp {
 
       path.removeSegments();
       path.addSegments(projectedPoints);
+      PathWarp.smoothCurves(path, smoothToleranceDeg);
     };
 
-    if(targetPath.className === 'CompoundPath') {
+    if (targetPath.className === 'CompoundPath') {
       targetPath.children.map(transform);
     } else {
       transform(targetPath);
@@ -90,18 +89,16 @@ export default class PathWarp {
    *  The input point should be a unit-point with values between (0,0) and (1,1)
    */
   static dualBoundsPathProjection(topPath, bottomPath) {
-      const topPathLength = topPath.length;
-      const bottomPathLength = bottomPath.length;
-      return unitPoint => {
-          let topPoint = topPath.getPointAt(unitPoint.x * topPathLength);
-          let bottomPoint = bottomPath.getPointAt(unitPoint.x * bottomPathLength);
-          if (topPoint == null || bottomPoint == null) {
-              console.warn("could not get projected point for unit point " + unitPoint);
-              return topPoint;
-          } else {
-              return topPoint.add(bottomPoint.subtract(topPoint).multiply(unitPoint.y));
-          }
+    const topPathLength = topPath.length;
+    const bottomPathLength = bottomPath.length;
+    return (unitPoint) => {
+      const topPoint = topPath.getPointAt(unitPoint.x * topPathLength);
+      const bottomPoint = bottomPath.getPointAt(unitPoint.x * bottomPathLength);
+      if (topPoint == null || bottomPoint == null) {
+        return topPoint;
       }
+      return topPoint.add(bottomPoint.subtract(topPoint).multiply(unitPoint.y));
+    };
   }
 
   /**
@@ -110,22 +107,21 @@ export default class PathWarp {
   * @param {number} toleranceDeg - Vertexes with angle difference less than 
   *   this are considered smoothable (default 15).
   */
-  static smoothCurves(path, toleranceDeg = 15){
+  static smoothCurves(path, toleranceDeg = 30) {
     let prevAngle = path.lastCurve.getTangentAt(0.5).angle;
-    for(const segment of path.segments){
+    for (const segment of path.segments) {
       const tangent = segment.curve.getTangentAt(0.5);
-      if(tangent == null){
-        continue;
-      }
-      const angle = tangent.angle;
 
-      const angleDiff = Math.abs(angle - prevAngle);
-      if(angleDiff > 0.1 && angleDiff < toleranceDeg){
-        segment.smooth({type: 'catmull-rom'});
-      }
+      if (tangent != null) {
+        const angle = tangent.angle;
 
-      prevAngle = angle;
+        const angleDiff = Math.abs(angle - prevAngle);
+        if (angleDiff > 0.1 && angleDiff < toleranceDeg) {
+          segment.smooth({ type: 'catmull-rom' });
+        }
+
+        prevAngle = angle;
+      }
     }
   }
-
 }
