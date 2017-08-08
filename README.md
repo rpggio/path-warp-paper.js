@@ -25,4 +25,4 @@ Warp a path to fit other boundary paths. Paper.js implementation.
    cosnt svgPath = target.exportSVG();
    ```
 
-![Demo](/demo-screen.jpg?raw=true "Demo screen")
+![Demo](/demo-screen.JPG?raw=true "Demo screen")
