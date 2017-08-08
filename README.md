@@ -1,5 +1,4 @@
-Font warp
-=========
+# path-warp-paper.js
 
 Warp a path to fit other boundary paths. Paper.js implementation.
 
@@ -25,3 +24,5 @@ Warp a path to fit other boundary paths. Paper.js implementation.
    // This is unnecessary for canvas render
    cosnt svgPath = target.exportSVG();
    ```
+
+![Demo](/demo-screen.jpg?raw=true "Demo screen")
