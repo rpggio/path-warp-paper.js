@@ -35,7 +35,7 @@ Warp a path to fit other boundary paths. [Paper.js](paperjs.org) implementation.
    target.projectBetween(top, bottom);
 
    cosnt svgPath = target.exportSVG();
-   document.getElementById('svgElement').appendChild(svgPath.exportSVG());
+   document.getElementById('svgId').appendChild(svgPath);
    ```
 
 ## Screenshot
