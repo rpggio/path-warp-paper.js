@@ -9,7 +9,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var PathWarp = function () {
-
   /**
   * Creates PathWarp instance.
   * @param {paper.PaperScope} paper - Paper paper.
@@ -32,19 +31,19 @@ var PathWarp = function () {
     });
 
     var self = this;
-    var warpBetwixt = function warpBetwixt(topPath, bottomPath, options) {
+    var warpBetween = function _warpBetween(topPath, bottomPath, options) {
       return self.warpPathBetween(this, topPath, bottomPath, options);
     };
 
     this.paper.Path.inject({
-      projectBetween: warpBetwixt,
+      warpBetween: warpBetween,
       smoothCurves: function smoothCurves(path, tol) {
         return PathWarp.smoothCurves(path, tol);
       }
     });
 
     this.paper.CompoundPath.inject({
-      projectBetween: warpBetwixt
+      warpBetween: warpBetween
     });
   }
 
@@ -67,8 +66,10 @@ var PathWarp = function () {
       var _this = this;
 
       var _ref = options || {},
-          flattenTolerance = _ref.flattenTolerance,
           smoothToleranceDeg = _ref.smoothToleranceDeg;
+
+      var _ref2 = options || {},
+          flattenTolerance = _ref2.flattenTolerance;
 
       if (!flattenTolerance) {
         flattenTolerance = 0.2;
@@ -91,6 +92,7 @@ var PathWarp = function () {
 
         path.removeSegments();
         path.addSegments(projectedPoints);
+        PathWarp.smoothCurves(path, smoothToleranceDeg);
       };
 
       if (targetPath.className === 'CompoundPath') {
@@ -118,11 +120,9 @@ var PathWarp = function () {
         var topPoint = topPath.getPointAt(unitPoint.x * topPathLength);
         var bottomPoint = bottomPath.getPointAt(unitPoint.x * bottomPathLength);
         if (topPoint == null || bottomPoint == null) {
-          console.warn("could not get projected point for unit point " + unitPoint);
           return topPoint;
-        } else {
-          return topPoint.add(bottomPoint.subtract(topPoint).multiply(unitPoint.y));
         }
+        return topPoint.add(bottomPoint.subtract(topPoint).multiply(unitPoint.y));
       };
     }
 
@@ -136,7 +136,7 @@ var PathWarp = function () {
   }, {
     key: 'smoothCurves',
     value: function smoothCurves(path) {
-      var toleranceDeg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 15;
+      var toleranceDeg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 30;
 
       var prevAngle = path.lastCurve.getTangentAt(0.5).angle;
       var _iteratorNormalCompletion = true;
@@ -148,17 +148,17 @@ var PathWarp = function () {
           var segment = _step.value;
 
           var tangent = segment.curve.getTangentAt(0.5);
-          if (tangent == null) {
-            continue;
-          }
-          var angle = tangent.angle;
 
-          var angleDiff = Math.abs(angle - prevAngle);
-          if (angleDiff > 0.1 && angleDiff < toleranceDeg) {
-            segment.smooth({ type: 'catmull-rom' });
-          }
+          if (tangent != null) {
+            var angle = tangent.angle;
 
-          prevAngle = angle;
+            var angleDiff = Math.abs(angle - prevAngle);
+            if (angleDiff > 0.1 && angleDiff < toleranceDeg) {
+              segment.smooth({ type: 'catmull-rom' });
+            }
+
+            prevAngle = angle;
+          }
         }
       } catch (err) {
         _didIteratorError = true;

@@ -1,13 +1,14 @@
 {
   "name": "path-warp-paper",
-  "version": "0.0.3",
+  "version": "0.1.3",
   "description": "Warp a path to fit other boundary paths. Paper.js implementation.",
   "main": "build/index.js",
   "scripts": {
     "test": "mocha --require babel-polyfill --compilers js:babel-register",
     "build": "babel src -d build",
     "demo": "webpack-dev-server",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "prepare": "npm run lint && npm run build"
   },
   "repository": {
     "type": "git",
