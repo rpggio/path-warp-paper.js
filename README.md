@@ -44,4 +44,4 @@ From demo page:
 
 `npm run demo`
 
-![Demo](/demo-screen.JPG?raw=true "Demo screen")
+![Demo](https://github.com/ryascl/path-warp-paper.js/raw/master/demo-screen.JPG?raw=true "Demo screen")
