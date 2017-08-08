@@ -10,22 +10,36 @@ Warp a path to fit other boundary paths. [Paper.js](paperjs.org) implementation.
    The feature is registered as an extension to `Path` and `CompoundPath` in Paper.js. 
    Paper.js is built for canvas rendering, but it can also be used as a calculation library unattached to canvas (export elements to SVG).
 
+### Canvas render
    ```
    import paper from 'paper'
    import PathWarp from 'path-warp-paper';
 
-   paper.setup(/* pass canvas element id to render on canvas */);
-   new PathWarp(paper); // registers extensions
+   paper.setup('canvasId');
+   new PathWarp(paper);
+
+   const top = new paper.Path(...);
+   const bottom = new paper.Path(...);
+   const target = new paper.Path(...);
+   target.projectBetween(top, bottom);
+   ```
+
+### SVG render
+   ```
+   paper.setup();
+   new PathWarp(paper);
 
    const top = new paper.Path(...);
    const bottom = new paper.Path(...);
    const target = new paper.Path(...);
    target.projectBetween(top, bottom);
 
-   // This is unnecessary for canvas render
    cosnt svgPath = target.exportSVG();
+   document.getElementById('svgElement').appendChild(svgPath.exportSVG());
    ```
 
-### Screenshot from demo/demo.html
+## Screenshot
+
+From demo page: `npm run demo`
 
 ![Demo](/demo-screen.JPG?raw=true "Demo screen")
