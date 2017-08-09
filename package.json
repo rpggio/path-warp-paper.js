@@ -10,7 +10,10 @@
     "lint": "eslint src",
     "prepare": "npm run lint && npm run build"
   },
-  "pre-commit": [ "lint", "build" ],
+  "pre-commit": [
+    "lint",
+    "build"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ryascl/path-warp-paper.js.git"
@@ -34,6 +37,7 @@
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
     "imports-loader": "^0.7.1",
+    "mocha": "^3.5.0",
     "opentype.js": "^0.7.3",
     "pre-commit": "^1.2.2",
     "webpack": "^3.4.1",

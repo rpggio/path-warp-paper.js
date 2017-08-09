@@ -26,7 +26,7 @@ export default class PathWarp {
 
     this.paper.Path.inject({
       warpBetween,
-      smoothCurves: (path, tol) => PathWarp.smoothCurves(path, tol),
+      smoothCurves: PathWarp.smoothCurves,
     });
 
     this.paper.CompoundPath.inject({
@@ -43,7 +43,7 @@ export default class PathWarp {
   * @param {paper.Path} bottomPath - Bottom boundary path.
   * @param {object} options - Optional. properties: 
   *     flattenTolerance {number}: default 0.2
-  *     toleranceDeg {number}: default 15
+  *     toleranceDeg {number}: default 30
   */
   warpPathBetween(targetPath, topPath, bottomPath, options) {
     const { smoothToleranceDeg } = options || {};
@@ -105,7 +105,7 @@ export default class PathWarp {
   * Smoothes any vertexes along curves that are 'nearly' smooth.
   * @param {paper.Path} path - Path to be modified.
   * @param {number} toleranceDeg - Vertexes with angle difference less than 
-  *   this are considered smoothable (default 15).
+  *   this are considered smoothable (default 30).
   */
   static smoothCurves(path, toleranceDeg = 30) {
     let prevAngle = path.lastCurve.getTangentAt(0.5).angle;
