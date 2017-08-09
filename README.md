@@ -1,4 +1,4 @@
-# path-warp-paper.js
+# path-warp-paper.js [![Build Status](https://travis-ci.org/ryascl/path-warp-paper.js.svg?branch=master)](https://travis-ci.org/ryascl/path-warp-paper.js)
 
 Warp a path to fit other boundary paths. [Paper.js](paperjs.org) implementation.
 
