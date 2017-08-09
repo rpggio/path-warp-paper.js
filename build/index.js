@@ -37,9 +37,7 @@ var PathWarp = function () {
 
     this.paper.Path.inject({
       warpBetween: warpBetween,
-      smoothCurves: function smoothCurves(path, tol) {
-        return PathWarp.smoothCurves(path, tol);
-      }
+      smoothCurves: PathWarp.smoothCurves
     });
 
     this.paper.CompoundPath.inject({
@@ -56,7 +54,7 @@ var PathWarp = function () {
   * @param {paper.Path} bottomPath - Bottom boundary path.
   * @param {object} options - Optional. properties: 
   *     flattenTolerance {number}: default 0.2
-  *     toleranceDeg {number}: default 15
+  *     toleranceDeg {number}: default 30
   */
 
 
@@ -130,7 +128,7 @@ var PathWarp = function () {
     * Smoothes any vertexes along curves that are 'nearly' smooth.
     * @param {paper.Path} path - Path to be modified.
     * @param {number} toleranceDeg - Vertexes with angle difference less than 
-    *   this are considered smoothable (default 15).
+    *   this are considered smoothable (default 30).
     */
 
   }, {
