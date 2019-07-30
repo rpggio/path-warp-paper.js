@@ -41,7 +41,7 @@
     "opentype.js": "^0.7.3",
     "pre-commit": "^1.2.2",
     "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.6.1"
+    "webpack-dev-server": "^3.1.11"
   },
   "dependencies": {
     "paper": "^0.11.4"
