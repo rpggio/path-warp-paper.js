@@ -1,19 +1,31 @@
-import * as opentype from 'opentype.js'
-import paperGlobal from 'paper'
+import * as opentype from 'opentype.js';
+import paperGlobal from 'paper';
 
 import PathWarp from '../src/index';
+import roboto from './Roboto-500.ttf';
 
-opentype.load('./Roboto-500.ttf', (err, font) => {
-  if (err) {
-    throw err; 
-  } else {
-    const pathData = font.getPath("WARP", 0, 0, 64).toPathData();
-    renderSvg(pathData);
-    renderCanvas(pathData);
-  }
-});
 
-function renderSvg(pathData){
+function renderPaperPath(paper, pathData) {
+  new PathWarp().register(paper);
+
+  const topPath = new paper.Path({
+    pathData: 'M14,96.19924l260,-90',
+    strokeColor: 'lightgray',
+  });
+  const bottomPath = new paper.Path({
+    pathData: 'M44,176.19924c120,50 190,70 220,10',
+    strokeColor: 'lightgray',
+  });
+
+  const targetPath = new paper.CompoundPath({
+    pathData,
+    fillColor: 'lightblue',
+  });
+  targetPath.warpBetween(topPath, bottomPath);
+  return { targetPath, topPath, bottomPath };
+}
+
+function renderSvg(pathData) {
   const paper = new paperGlobal.PaperScope();
   paper.setup();
 
@@ -31,22 +43,12 @@ function renderCanvas(pathData) {
   renderPaperPath(paper, pathData);
 }
 
-function renderPaperPath(paper, pathData) {
-  const pathWarp = new PathWarp(paper);
-
-  const topPath = new paper.Path({
-    pathData: 'M14,96.19924l260,-90',
-    strokeColor: 'lightgray'
-  });
-  const bottomPath = new paper.Path({
-    pathData: 'M44,176.19924c120,50 190,70 220,10',
-    strokeColor: 'lightgray'
-  });
-
-  const targetPath = new paper.CompoundPath({
-    pathData: pathData,
-    fillColor: 'lightblue'
-  });
-  targetPath.warpBetween(topPath, bottomPath);
-  return { targetPath, topPath, bottomPath };
-}
+opentype.load(roboto, (err, font) => {
+  if (err) {
+    throw err;
+  } else {
+    const pathData = font.getPath('WARP', 0, 0, 64).toPathData();
+    renderSvg(pathData);
+    renderCanvas(pathData);
+  }
+});

@@ -2,5 +2,10 @@
     "extends": "airbnb-base",
     "rules": {
         "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"]
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "mocha": true
     }
 }

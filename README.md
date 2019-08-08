@@ -2,6 +2,8 @@
 
 Warp a path to fit other boundary paths. [Paper.js](paperjs.org) implementation.
 
+![Demo](https://github.com/ryascl/path-warp-paper.js/raw/master/demo-screen.JPG?raw=true "Demo screen")
+
 ## Installation
 
   `npm install path-warp-paper`
@@ -16,7 +18,7 @@ Warp a path to fit other boundary paths. [Paper.js](paperjs.org) implementation.
    import PathWarp from 'path-warp-paper';
 
    paper.setup('canvasId');
-   new PathWarp(paper);
+   new PathWarp().register(paper);
 
    const top = new paper.Path(...);
    const bottom = new paper.Path(...);
@@ -27,7 +29,7 @@ Warp a path to fit other boundary paths. [Paper.js](paperjs.org) implementation.
 ### SVG render
    ```
    paper.setup();
-   new PathWarp(paper);
+   new PathWarp().register(paper);
 
    const top = new paper.Path(...);
    const bottom = new paper.Path(...);
@@ -38,10 +40,12 @@ Warp a path to fit other boundary paths. [Paper.js](paperjs.org) implementation.
    document.getElementById('svgId').appendChild(svgPath);
    ```
 
-## Screenshot
+## Working with this project
 
-From demo page:
+### Tests
+
+`npm run test`
+
+### Demo
 
 `npm run demo`
-
-![Demo](https://github.com/ryascl/path-warp-paper.js/raw/master/demo-screen.JPG?raw=true "Demo screen")

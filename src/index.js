@@ -1,12 +1,12 @@
 
 export default class PathWarp {
   /**
-  * Creates PathWarp instance.
+  * Register paper scope for PathWarp instance.
   * @param {paper.PaperScope} paper - Paper paper.
   *   To run without canvas element (such as for SVG rendering), just
   *   call `paper.setup()` before calling this.
   */
-  constructor(paper) {
+  register(paper) {
     if (!paper) {
       throw new Error('PathWarp requires PaperScope');
     }
@@ -41,7 +41,7 @@ export default class PathWarp {
   *  treated as having rectangular bounds.
   * @param {paper.Path} topPath - Top boundary path.
   * @param {paper.Path} bottomPath - Bottom boundary path.
-  * @param {object} options - Optional. properties: 
+  * @param {object} options - Optional. properties:
   *     flattenTolerance {number}: default 0.2
   *     toleranceDeg {number}: default 30
   */
@@ -64,7 +64,8 @@ export default class PathWarp {
         const relative = point.subtract(sourceBounds.topLeft);
         const unitPoint = new this.paper.Point(
           relative.x / sourceBounds.width,
-          relative.y / sourceBounds.height);
+          relative.y / sourceBounds.height,
+        );
         return projection(unitPoint);
       });
 
@@ -81,7 +82,7 @@ export default class PathWarp {
   }
 
   /**
-   * Create a function that will project rectangular points into an 
+   * Create a function that will project rectangular points into an
    *  area defined by upper and lower paths.
    * @param {paper.Path} Top bounds of projection area
    * @param {paper.Path} Bottom bounds of projection area
@@ -104,7 +105,7 @@ export default class PathWarp {
   /**
   * Smoothes any vertexes along curves that are 'nearly' smooth.
   * @param {paper.Path} path - Path to be modified.
-  * @param {number} toleranceDeg - Vertexes with angle difference less than 
+  * @param {number} toleranceDeg - Vertexes with angle difference less than
   *   this are considered smoothable (default 30).
   */
   static smoothCurves(path, toleranceDeg = 30) {
@@ -113,7 +114,7 @@ export default class PathWarp {
       const tangent = segment.curve.getTangentAt(0.5);
 
       if (tangent != null) {
-        const angle = tangent.angle;
+        const { angle } = tangent;
 
         const angleDiff = Math.abs(angle - prevAngle);
         if (angleDiff > 0.1 && angleDiff < toleranceDeg) {

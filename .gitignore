@@ -1,8 +1,7 @@
-# specific
-node_modules/
-demo/bundle.js
-
-# just in case
+node_modules
+dist
+dist_test
 .npm
 .eslintcache
 .DS_Store
+.cache
