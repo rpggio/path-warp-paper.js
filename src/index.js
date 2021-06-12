@@ -1,4 +1,3 @@
-
 export default class PathWarp {
   /**
   * Register paper scope for PathWarp instance.
@@ -58,7 +57,7 @@ export default class PathWarp {
 
     const transform = (path) => {
       path.flatten(flattenTolerance);
-      const sourcePoints = path.segments.map(s => s.point);
+      const sourcePoints = path.segments.map((s) => s.point);
 
       const projectedPoints = sourcePoints.map((point) => {
         const relative = point.subtract(sourceBounds.topLeft);

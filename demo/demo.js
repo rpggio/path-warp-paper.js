@@ -4,7 +4,6 @@ import paperGlobal from 'paper';
 import PathWarp from '../src/index';
 import roboto from './Roboto-500.ttf';
 
-
 function renderPaperPath(paper, pathData) {
   new PathWarp().register(paper);
 

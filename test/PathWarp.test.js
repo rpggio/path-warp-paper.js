@@ -8,9 +8,7 @@ function roundHundredths(value) {
 }
 
 function getPathPoints(path) {
-  return path.segments.map(s =>
-    s.point.toArray().map(v =>
-      roundHundredths(v)));
+  return path.segments.map((s) => s.point.toArray().map((v) => roundHundredths(v)));
 }
 
 describe('path.warpBetween', () => {
